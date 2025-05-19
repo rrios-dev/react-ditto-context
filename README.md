@@ -1,69 +1,113 @@
-# React Library Boilerplate
+# React Ditto Context
 
-A lightweight, type-safe React component library boilerplate with TypeScript support.
+[![npm version](https://badge.fury.io/js/react-ditto-context.svg)](https://badge.fury.io/js/react-ditto-context)
+
+A lightweight, type-safe React context library that simplifies state management in React applications.
 
 ## Features
 
-- 🚀 TypeScript support
-- 📦 Built with tsup for optimal bundle size
-- 🧪 Jest and React Testing Library for testing
-- 📚 Storybook for component documentation
-- 🎨 CSS-in-JS support
-- 📝 ESLint and TypeScript for code quality
-- 🏷️ Type definitions included
+- 🚀 Lightweight and performant
+- 🔒 Type-safe with TypeScript
+- 🎯 Simple and intuitive API
+- 📦 Zero dependencies
+- 🧪 Fully tested
+- 📚 Storybook documentation
 
-## Getting Started
-
-### Installation
+## Installation
 
 ```bash
-npm install
+npm install react-ditto-context
+# or
+yarn add react-ditto-context
+# or
+bun add react-ditto-context
 ```
 
-### Development
-
-```bash
-# Start Storybook
-npm run storybook
-
-# Run tests
-npm test
-
-# Build the library
-npm run build
-```
-
-### Usage
+## Quick Start
 
 ```tsx
-import { Button } from 'react-library-boilerplate';
+import { DittoContextProvider, useDittoContext } from 'react-ditto-context';
 
-function App() {
+// Define your context type
+type MyContext = {
+  count: number;
+  increment: () => void;
+};
+
+// Create your context provider
+const MyProvider = ({ children }: { children: React.ReactNode }) => {
+  const [count, setCount] = useState(0);
+  
+  const value = {
+    count,
+    increment: () => setCount(prev => prev + 1)
+  };
+
   return (
-    <Button variant="primary" size="large">
-      Click me
-    </Button>
+    <DittoContextProvider<MyContext> value={value}>
+      {children}
+    </DittoContextProvider>
   );
-}
+};
+
+// Use the context in your components
+const Counter = () => {
+  const { count, increment } = useDittoContext<MyContext>();
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+};
 ```
 
-## Project Structure
+## API Reference
 
+### `DittoContextProvider<T>`
+
+A type-safe context provider component.
+
+```tsx
+<DittoContextProvider<T> value={value}>
+  {children}
+</DittoContextProvider>
 ```
-src/
-  ├── components/     # React components
-  ├── index.tsx      # Main entry point
-  └── types.ts       # Type definitions
+
+#### Props
+
+- `value: T` - The context value
+- `children: React.ReactNode` - Child components
+
+### `useDittoContext<T>`
+
+A hook to access the context value.
+
+```tsx
+const value = useDittoContext<T>();
+```
+
+## Development
+
+```bash
+# Install dependencies
+bun install
+
+# Run tests
+bun test
+
+# Start Storybook
+bun run storybook
+
+# Build the library
+bun run build
 ```
 
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT © [Roberto Ríos](https://github.com/rrios-dev)

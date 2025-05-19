@@ -1,7 +1,7 @@
 {
-  "name": "react-library-boilerplate",
+  "name": "react-ditto-context",
   "version": "1.0.0",
-  "description": "A lightweight, type-safe React component library boilerplate",
+  "description": "A lightweight, type-safe React context library",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.tsx --format cjs,esm --dts --external react",
+    "build": "tsup src/index.ts --format cjs,esm --dts --external react",
     "test": "jest",
     "prepublishOnly": "bun run build",
     "lint": "eslint src",
@@ -18,8 +18,8 @@
   },
   "keywords": [
     "react",
-    "library",
-    "boilerplate",
+    "context",
+    "hooks",
     "typescript",
     "components"
   ],
@@ -27,7 +27,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rrios-dev/react-library-boilerplate"
+    "url": "https://github.com/rrios-dev/react-ditto-context"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

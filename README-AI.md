@@ -1,449 +1,196 @@
-# Library Boilerplate - AI Development Guide
+# React Ditto Context - Technical Documentation
 
-## Project Analysis
+## Project Overview
 
-### Core Architecture
-This is a TypeScript library boilerplate designed for creating lightweight, type-safe libraries. The project follows a modular architecture with clear separation of concerns.
+React Ditto Context is a lightweight, type-safe context management library for React applications. It provides a simple and intuitive API for managing global state while maintaining type safety and performance.
 
-### Directory Structure Analysis
+## Architecture
+
+### Core Components
+
+1. **DittoContextProvider**
+   - A generic context provider component that wraps React's Context.Provider
+   - Provides type safety through TypeScript generics
+   - Handles context value updates efficiently
+
+2. **useDittoContext Hook**
+   - A custom hook that provides type-safe access to the context
+   - Implements error handling for context usage outside provider
+   - Optimized for performance with React's context API
+
+### Project Structure
+
 ```
-library-boilerplate/
-├── src/                    # Source code directory
-│   ├── index.ts           # Main entry point - exports public API
-│   ├── main.ts            # Core functionality implementation
-│   ├── types.ts           # TypeScript type definitions
-│   └── main.test.ts       # Test implementation
-├── dist/                   # Compiled output (generated)
-├── package.json           # Project configuration and dependencies
-├── tsconfig.json          # TypeScript configuration
-├── eslint.config.mjs      # ESLint configuration
-└── jest.config.js         # Jest test configuration
-```
-
-### File Purpose Analysis
-
-#### src/index.ts
-- Primary entry point for the library
-- Responsible for exporting public API
-- Should maintain clean exports without implementation details
-
-#### src/main.ts
-- Contains core library functionality
-- Should be modular and well-documented
-- Implements business logic
-
-#### src/types.ts
-- Contains all TypeScript type definitions
-- Should be comprehensive and well-documented
-- Exports all necessary types
-
-#### src/main.test.ts
-- Contains test implementations
-- Uses Jest testing framework
-- Should cover all edge cases
-
-## Technical Stack Analysis
-
-### Core Technologies
-- **Language**: TypeScript
-- **Build Tool**: tsup
-- **Testing**: Jest
-- **Linting**: ESLint
-- **Package Manager**: Bun/npm
-
-### Configuration Files
-
-#### package.json
-```json
-{
-  "main": "dist/index.js",        // CommonJS entry
-  "module": "dist/index.mjs",     // ESM entry
-  "types": "dist/index.d.ts",     // TypeScript definitions
-  "files": ["dist"]              // Published files
-}
+src/
+├── components/
+│   ├── ditto-context-provider.tsx    # Main context provider component
+│   └── __tests__/                    # Component tests
+├── hooks/
+│   ├── use-ditto-context.ts          # Custom hook for context access
+│   └── __tests__/                    # Hook tests
+├── types.ts                          # Type definitions
+└── index.ts                          # Main entry point
 ```
 
-#### tsconfig.json
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "strict": true,
-    "declaration": true
-  }
-}
-```
+## Technical Decisions
 
-#### eslint.config.mjs
-- Enforces code style and quality
-- TypeScript-specific rules
-- Best practices enforcement
+### 1. TypeScript Integration
 
-## AI Development Guidelines
+- **Why TypeScript?**
+  - Provides compile-time type checking
+  - Enables better IDE support and autocompletion
+  - Reduces runtime errors
+  - Improves code maintainability
 
-### 1. Type Safety Implementation
-```typescript
-// ✅ Good Practice
-interface UserConfig {
-  name: string;
-  age: number;
-  preferences?: Record<string, unknown>;
-}
+- **Type Safety Features**
+  - Generic type parameters for context values
+  - Strict null checks
+  - Type inference for context values
 
-// ❌ Bad Practice
-interface UserConfig {
-  name: any;
-  age: any;
-  preferences?: any;
-}
-```
+### 2. Build System
 
-### 2. Error Handling Patterns
-```typescript
-// ✅ Good Practice
-class LibraryError extends Error {
-  constructor(
-    message: string,
-    public readonly code: string,
-    public readonly details?: unknown
-  ) {
-    super(message);
-    this.name = 'LibraryError';
-  }
-}
+- **tsup**
+  - Zero-config bundler
+  - Supports multiple output formats (CJS, ESM)
+  - Tree-shaking for optimal bundle size
+  - TypeScript support out of the box
 
-// Usage
-try {
-  // Implementation
-} catch (error) {
-  throw new LibraryError(
-    'Failed to process request',
-    'PROCESSING_ERROR',
-    { originalError: error }
-  );
-}
-```
+### 3. Testing Strategy
 
-### 3. Testing Patterns
-```typescript
-// ✅ Good Practice
-describe('Library Functionality', () => {
-  it('should handle valid input', () => {
-    // Test implementation
-  });
+- **Jest + React Testing Library**
+  - Unit tests for hooks and components
+  - Integration tests for provider-consumer relationships
+  - Snapshot testing for component rendering
+  - Mock implementations for context testing
 
-  it('should handle edge cases', () => {
-    // Edge case testing
-  });
+### 4. Development Tools
 
-  it('should throw on invalid input', () => {
-    // Error case testing
-  });
-});
-```
+- **ESLint**
+  - Enforces code style and best practices
+  - TypeScript-aware linting rules
+  - Custom configuration for React and TypeScript
 
-### 4. Documentation Patterns
-```typescript
-/**
- * Processes the input data according to the specified configuration.
- * 
- * @param input - The input data to process
- * @param config - Configuration options for processing
- * @returns Processed data
- * @throws {LibraryError} If processing fails
- * 
- * @example
- * ```typescript
- * const result = processData(input, { maxRetries: 3 });
- * ```
- */
-export function processData(input: unknown, config: ProcessConfig): ProcessedData {
-  // Implementation
-}
-```
+- **Storybook**
+  - Component documentation
+  - Interactive examples
+  - Visual testing
+  - Addons for accessibility and interactions
 
-## AI Implementation Checklist
+### 5. Performance Considerations
 
-### 1. Project Setup
-- [ ] Initialize project structure
-- [ ] Configure TypeScript
-- [ ] Set up ESLint
-- [ ] Configure Jest
-- [ ] Set up build process
+- **Context Optimization**
+  - Minimal re-renders through proper context splitting
+  - Efficient value updates
+  - Memory leak prevention
 
-### 2. Core Implementation
-- [ ] Define types in `types.ts`
-- [ ] Implement core functionality in `main.ts`
-- [ ] Set up exports in `index.ts`
-- [ ] Implement error handling
-- [ ] Add input validation
+- **Bundle Size**
+  - Zero runtime dependencies
+  - Tree-shaking support
+  - Minimal production bundle
 
-### 3. Testing
-- [ ] Write unit tests
-- [ ] Add integration tests
-- [ ] Implement edge case tests
-- [ ] Add error case tests
-- [ ] Ensure test coverage
+## Development Workflow
 
-### 4. Documentation
-- [ ] Document public API
-- [ ] Add JSDoc comments
-- [ ] Create usage examples
-- [ ] Document error cases
-- [ ] Add type documentation
+### Setup
 
-### 5. Quality Assurance
-- [ ] Run ESLint
-- [ ] Run tests
-- [ ] Check type coverage
-- [ ] Verify build process
-- [ ] Test in different environments
+1. **Installation**
+   ```bash
+   bun install
+   ```
 
-## Best Practices for AI Development
+2. **Development**
+   ```bash
+   bun run storybook  # Start Storybook
+   bun test          # Run tests
+   ```
 
-### 1. Code Organization
-- Keep files focused and single-responsibility
-- Use clear naming conventions
-- Maintain consistent file structure
-- Follow modular design principles
+3. **Building**
+   ```bash
+   bun run build     # Create production build
+   ```
 
-### 2. Type Safety
-- Use strict TypeScript configurations
-- Avoid `any` type
-- Define comprehensive interfaces
-- Use type guards when necessary
+### Testing
 
-### 3. Error Handling
-- Implement custom error classes
-- Provide meaningful error messages
-- Include error codes
-- Document error cases
+- Unit tests for hooks and components
+- Integration tests for context provider-consumer relationships
+- Snapshot tests for component rendering
+- Storybook for visual testing
 
-### 4. Testing
-- Write comprehensive tests
-- Cover edge cases
-- Test error scenarios
-- Maintain high test coverage
+### Code Quality
 
-### 5. Documentation
-- Document all public APIs
-- Include usage examples
-- Document error cases
-- Keep documentation up to date
+- ESLint for code style and best practices
+- TypeScript for type safety
+- Pre-commit hooks for code quality checks
+- Continuous Integration for automated testing
 
-### 6. Performance
-- Optimize critical paths
-- Use appropriate data structures
-- Implement caching when needed
-- Monitor memory usage
+## Best Practices
 
-## Common Patterns and Anti-patterns
+### Using the Context
 
-### Patterns to Follow
-```typescript
-// 1. Factory Pattern
-export function createInstance(config: Config): Instance {
-  return new Instance(config);
-}
+1. **Type Definition**
+   ```typescript
+   type MyContext = {
+     value: string;
+     update: (value: string) => void;
+   };
+   ```
 
-// 2. Builder Pattern
-export class Builder {
-  private config: Partial<Config> = {};
-  
-  withOption(option: keyof Config, value: Config[keyof Config]): this {
-    this.config[option] = value;
-    return this;
-  }
-  
-  build(): Config {
-    return this.config as Config;
-  }
-}
+2. **Provider Implementation**
+   ```typescript
+   const MyProvider = ({ children }: { children: React.ReactNode }) => {
+     const [value, setValue] = useState('');
+     return (
+       <DittoContextProvider<MyContext>
+         value={{ value, update: setValue }}
+       >
+         {children}
+       </DittoContextProvider>
+     );
+   };
+   ```
 
-// 3. Strategy Pattern
-export interface Strategy {
-  execute(data: unknown): Result;
-}
+3. **Consumer Usage**
+   ```typescript
+   const MyComponent = () => {
+     const { value, update } = useDittoContext<MyContext>();
+     // Use context values
+   };
+   ```
 
-export class Context {
-  constructor(private strategy: Strategy) {}
-  
-  executeStrategy(data: unknown): Result {
-    return this.strategy.execute(data);
-  }
-}
-```
+### Performance Tips
 
-### Anti-patterns to Avoid
-```typescript
-// ❌ Global State
-let globalConfig: any;
+1. **Context Splitting**
+   - Split large contexts into smaller, focused contexts
+   - Prevent unnecessary re-renders
+   - Improve maintainability
 
-// ❌ Any Type
-function process(data: any): any {
-  return data;
-}
+2. **Value Updates**
+   - Use stable references for context values
+   - Implement proper memoization
+   - Avoid unnecessary context updates
 
-// ❌ Unhandled Promises
-async function process() {
-  fetch('/api'); // Missing await
-}
+3. **Error Handling**
+   - Implement proper error boundaries
+   - Handle missing context gracefully
+   - Provide meaningful error messages
 
-// ❌ Unsafe Type Assertions
-const data = input as any;
-```
+## Future Improvements
 
-## Version Control Guidelines
+1. **Planned Features**
+   - Context persistence
+   - DevTools integration
+   - Performance monitoring
+   - Middleware support
 
-### Commit Messages
-```
-feat: add new feature
-fix: resolve bug
-docs: update documentation
-test: add tests
-refactor: restructure code
-chore: update dependencies
-```
+2. **Potential Optimizations**
+   - Memoization strategies
+   - Bundle size optimization
+   - Performance benchmarks
+   - SSR support
 
-### Branch Strategy
-- `main`: Production-ready code
-- `develop`: Development branch
-- `feature/*`: New features
-- `fix/*`: Bug fixes
-- `release/*`: Release preparation
+## Contributing
 
-## Release Process
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-### 1. Version Update
-- Update version in `package.json`
-- Update CHANGELOG.md
-- Tag release in git
+## License
 
-### 2. Build Process
-- Run tests
-- Build library
-- Generate documentation
-- Create distribution files
-
-### 3. Publishing
-- Publish to npm
-- Create GitHub release
-- Update documentation
-
-## Maintenance Guidelines
-
-### 1. Dependency Updates
-- Regular security updates
-- Major version updates
-- Peer dependency updates
-- Development dependency updates
-
-### 2. Code Quality
-- Regular linting
-- Type checking
-- Test coverage
-- Performance monitoring
-
-### 3. Documentation
-- API documentation
-- Usage examples
-- Migration guides
-- Troubleshooting guides
-
-## AI-Specific Considerations
-
-### 1. Code Generation
-- Follow established patterns
-- Maintain consistency
-- Use appropriate abstractions
-- Consider maintainability
-
-### 2. Error Handling
-- Implement comprehensive error handling
-- Provide meaningful error messages
-- Include error codes
-- Document error cases
-
-### 3. Testing
-- Write comprehensive tests
-- Cover edge cases
-- Test error scenarios
-- Maintain high test coverage
-
-### 4. Documentation
-- Document all public APIs
-- Include usage examples
-- Document error cases
-- Keep documentation up to date
-
-### 5. Performance
-- Optimize critical paths
-- Use appropriate data structures
-- Implement caching when needed
-- Monitor memory usage
-
-## CI/CD and GitHub Actions
-
-### GitHub Actions Workflow
-The project includes a GitHub Actions workflow for automated publishing to NPM. The workflow is triggered when a new release is created.
-
-#### Workflow Steps
-1. **Checkout**: Clones the repository
-2. **Setup Node.js**: Configures Node.js environment
-3. **Install Dependencies**: Installs project dependencies
-4. **Build**: Builds the project
-5. **Test**: Runs the test suite
-6. **Publish**: Publishes to NPM
-
-#### Configuration
-```yaml
-name: Publish Package to NPM
-
-on:
-  release:
-    types: [created]
-
-jobs:
-  build-and-publish:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Run tests
-        run: npm test
-
-      - name: Publish to NPM
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
-
-### Required Secrets
-- `NPM_TOKEN`: NPM authentication token for publishing
-
-### Publishing Process
-1. Create a new release in GitHub
-2. GitHub Actions workflow is triggered
-3. Package is built and tested
-4. If successful, package is published to NPM
-
-### Best Practices for CI/CD
-1. Always run tests before publishing
-2. Use semantic versioning
-3. Keep dependencies up to date
-4. Monitor build and test results
-5. Maintain security of secrets
+MIT © [Roberto Ríos](https://github.com/rrios-dev)
