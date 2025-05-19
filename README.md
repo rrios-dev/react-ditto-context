@@ -34,31 +34,29 @@ type MyContext = {
   increment: () => void;
 };
 
-// Create your context provider
-const MyProvider = ({ children }: { children: React.ReactNode }) => {
-  const [count, setCount] = useState(0);
-  
-  const value = {
-    count,
-    increment: () => setCount(prev => prev + 1)
-  };
+interface ContextState {
+  message: string
+}
 
+const context = React.createContext<ContextState | null>(null)
+
+// Create your context provider
+const MyComponent = ({ children }: { children: React.ReactNode }) => {
   return (
-    <DittoContextProvider<MyContext> value={value}>
+    <DittoContextProvider context={context} value={{
+      message: 'data'
+    }}>
       {children}
     </DittoContextProvider>
   );
 };
 
 // Use the context in your components
-const Counter = () => {
-  const { count, increment } = useDittoContext<MyContext>();
+const Reader = () => {
+  const { message } = useDittoContext<MyContext>();
   
   return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={increment}>Increment</button>
-    </div>
+    <p>{message}</p>
   );
 };
 ```

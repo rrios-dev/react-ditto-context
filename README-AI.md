@@ -135,17 +135,42 @@ src/
    ```
 
 2. **Provider Implementation**
-   ```typescript
-   const MyProvider = ({ children }: { children: React.ReactNode }) => {
-     const [value, setValue] = useState('');
-     return (
-       <DittoContextProvider<MyContext>
-         value={{ value, update: setValue }}
-       >
-         {children}
-       </DittoContextProvider>
-     );
-   };
+   ```tsx
+    type MyContext = {
+    count: number;
+    increment: () => void;
+    };
+
+    interface ContextState {
+      message: string
+    }
+
+    const context = React.createContext<ContextState | null>(null)
+
+    // Create your context provider
+    const MyComponent = ({ children }: { children: React.ReactNode }) => {
+      return (
+        <DittoContextProvider context={context} value={{
+          message: 'data'
+        }}>
+          {children}
+        </DittoContextProvider>
+      );
+    };
+
+    // Use the context in your components
+    const Reader = () => {
+      const { message } = useDittoContext<MyContext>();
+      
+      return (
+        <p>{message}</p>
+      );
+    };
+
+```
+
+
+
    ```
 
 3. **Consumer Usage**
